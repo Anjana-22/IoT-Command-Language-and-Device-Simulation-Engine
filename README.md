@@ -38,7 +38,7 @@ For MongoDB Compass, connect to `mongodb://127.0.0.1:27017` and inspect the `iot
 The local address `http://localhost:3000` is only available on the computer running the server. To give others a link, publish this project to a GitHub repository and deploy it with a web host. A Render Blueprint is included at `render.yaml`.
 
 1. Put the contents of this project folder in a GitHub repository. Do not commit `.env` or `node_modules`; they are excluded by `.gitignore`.
-2. In Render, create a new **Blueprint** and connect that repository. Render reads `render.yaml`, installs the backend packages, starts Express, and provides a public `onrender.com` URL.
+2. In Render, create a new **Blueprint** and connect that repository. Render reads `render.yaml`, installs the backend packages, starts Express on the free web-service plan, and provides a public `onrender.com` URL. Free services can spin down when idle, so the first visit after inactivity may take longer.
 3. For a quick demo, leave `MONGODB_URI` unset; app state is temporary and resets when the service restarts. For persistent storage, create a MongoDB Atlas database user and database, then set `MONGODB_URI` as a secret environment variable in Render. Configure Atlas network access to allow the app host's outbound IPs; avoid opening database access to all IPs.
 4. After deployment is healthy, share the Render URL with others.
 
