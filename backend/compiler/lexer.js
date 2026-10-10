@@ -1,5 +1,3 @@
-const SENSORS = new Set(['temperature', 'light', 'humidity']);
-const DEVICES = new Set(['FAN', 'LIGHT', 'HEATER', 'AC', 'BUZZER']);
 const STATES = new Set(['ON', 'OFF']);
 
 /** Turn one source line into typed tokens. Unknown words stay identifiers so
@@ -28,11 +26,8 @@ function tokenize(source) {
       const upper = value.toUpperCase();
       let type = 'IDENTIFIER';
       if (upper === 'IF' || upper === 'THEN') type = 'KEYWORD';
-      // `light` is both a sensor name and a device name. The DSL spells
-      // sensors in lowercase and devices in uppercase, so preserve that
-      // distinction here instead of letting the sensor check win for LIGHT.
-      else if (SENSORS.has(value.toLowerCase()) && value === value.toLowerCase()) type = 'SENSOR';
-      else if (DEVICES.has(upper)) type = 'DEVICE';
+      // Sensor and device names are identifiers until the parser knows their
+      // grammatical position. This matters for names shared by both sets.
       else if (STATES.has(upper)) type = 'ACTION';
       tokens.push({ value, type, column: cursor + 1 });
       cursor += value.length;
