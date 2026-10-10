@@ -28,7 +28,10 @@ function tokenize(source) {
       const upper = value.toUpperCase();
       let type = 'IDENTIFIER';
       if (upper === 'IF' || upper === 'THEN') type = 'KEYWORD';
-      else if (SENSORS.has(value.toLowerCase())) type = 'SENSOR';
+      // `light` is both a sensor name and a device name. The DSL spells
+      // sensors in lowercase and devices in uppercase, so preserve that
+      // distinction here instead of letting the sensor check win for LIGHT.
+      else if (SENSORS.has(value.toLowerCase()) && value === value.toLowerCase()) type = 'SENSOR';
       else if (DEVICES.has(upper)) type = 'DEVICE';
       else if (STATES.has(upper)) type = 'ACTION';
       tokens.push({ value, type, column: cursor + 1 });
